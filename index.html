@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>My Photo Gallery</h1>
+  </header>
+
+  <main id="gallery" class="gallery"></main>
+
+  <div id="lightbox" class="lightbox">
+    <span id="close" class="close">&times;</span>
+    <img id="lightbox-img" />
+    <div class="nav prev" id="prev">&#10094;</div>
+    <div class="nav next" id="next">&#10095;</div>
+  </div>
+
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbz_fFyTQN3CrU7-qqqBUm445i3ke1xSq3kf5JMjBrom2bQupGXGNienzgnvD-DMv1c9Bw/exec";
+  </script>
+  <script src="gallery.js"></script>
+
+</body>
+</html>
