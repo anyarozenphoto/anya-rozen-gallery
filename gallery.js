@@ -3,7 +3,7 @@ let images = [];
 
 async function loadGallery() {
   try {
-    const res = await fetch(API_URL);
+    const res = await fetch('data.json');
     images = await res.json();
     const container = document.getElementById('gallery');
     
