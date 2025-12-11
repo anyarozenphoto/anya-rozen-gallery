@@ -1,41 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <main id="gallery" class="gallery" aria-live="polite">
-    <div id="loader" class="loader">Загружаю галерею…</div>
-  </main>
+  <main id="gallery" class="gallery"></main>
 
-  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
-    <button id="close" class="close" aria-label="Close">&times;</button>
-    <img id="lightbox-img" alt="">
-    <button id="prev" class="nav prev" aria-label="Previous">&#10094;</button>
-    <button id="next" class="nav next" aria-label="Next">&#10095;</button>
-    <div id="cap" class="caption" aria-live="polite"></div>
+  <div id="lightbox" class="lightbox">
+    <span id="close" class="close">&times;</span>
+    <img id="lightbox-img" src="" />
+    <div class="nav prev" id="prev">&#10094;</div>
+    <div class="nav next" id="next">&#10095;</div>
   </div>
 
+  <!-- JSONP CALLBACK -->
   <script>
-    // APPS_SCRIPT_URL (вставлен тот, который ты прислал)
-    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw0XV33-fhVeC3zoO1Icvpoj6wrZ9gqyscExFL0XdBrgWQIcslT-BDHrxsFhidl1FGvmA/exec';
-    // ALBUM URL (тот, который ты давала ранее)
-    const ALBUM_URL = 'https://photos.app.goo.gl/yaH8GcbxTofFjnQz6';
-    // JSONP загрузка: добавит <script> с callback=galleryCallback
-    (function loadJSONP(){
-      const s = document.createElement('script');
-      s.src = APPS_SCRIPT_URL + '?callback=galleryCallback&albumUrl=' + encodeURIComponent(ALBUM_URL) + '&_=' + Date.now();
-      s.onerror = function(){
-        const g = document.getElementById('gallery');
-        g.innerHTML = '<div class="loader">Не удалось связаться с сервисом галереи. Проверьте Apps Script deployment и публичность альбома.</div>';
-      };
-      document.head.appendChild(s);
-    })();
+    function galleryCallback(data) {
+      window.galleryImages = data;
+      initGallery();
+    }
   </script>
+
+  <!-- Load JSONP script -->
+  <script src="https://script.google.com/macros/s/AKfycbw0XV33-fhVeC3zoO1Icvpoj6wrZ9gqyscExFL0XdBrgWQIcslT-BDHrxsFhidl1FGvmA/exec?callback=galleryCallback&albumUrl=https://photos.app.goo.gl/yaH8GcbxTofFjnQz6"></script>
 
   <script src="gallery.js"></script>
 </body>
