@@ -1,38 +1,61 @@
+/* style.css - Masonry-style responsive gallery + lightbox */
+:root{
+  --bg: #fafafa;
+  --card: #fff;
+  --accent: #111;
+  --gap: 14px;
+}
+
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: sans-serif;
-  background: #fafafa;
-  color: #111;
+  font-family: Inter, Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg);
+  color: var(--accent);
 }
 
-header {
-  text-align: center;
-  padding: 30px 0;
-  font-size: 28px;
-  letter-spacing: 1px;
-}
-
+/* Gallery — masonry using CSS columns for natural variable heights */
 .gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
+  column-count: 3;
+  column-gap: var(--gap);
   padding: 20px;
   max-width: 1400px;
   margin: 0 auto;
 }
 
+@media (max-width:1200px){ .gallery { column-count: 3; } }
+@media (max-width:900px){ .gallery { column-count: 2; } }
+@media (max-width:600px){ .gallery { column-count: 1; } }
+
+.gallery .item {
+  break-inside: avoid;
+  margin-bottom: var(--gap);
+  background: transparent;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
 .gallery img {
   width: 100%;
-  height: 300px;
-  object-fit: cover;
-  cursor: pointer;
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  transition: transform .18s ease, box-shadow .18s ease, opacity .18s ease;
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 .gallery img:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(16,16,16,0.12);
+  opacity: 0.98;
+}
+
+/* Loader */
+.loader {
+  text-align: center;
+  padding: 40px;
+  color: #666;
 }
 
 /* Lightbox */
@@ -40,109 +63,62 @@ header {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.95);
-  justify-content: center;
+  background: rgba(8,8,8,0.92);
   align-items: center;
-  z-index: 1000;
-}
-
-.lightbox.active {
-  display: flex;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
 }
 
 .lightbox img {
-  max-width: 95vw;
-  max-height: 95vh;
-  object-fit: contain;
-  border-radius: 4px;
+  max-width: 94%;
+  max-height: 86%;
+  border-radius: 6px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.6);
 }
 
+/* Controls */
 .close {
   position: absolute;
-  top: 20px;
-  right: 30px;
+  top: 18px;
+  right: 22px;
+  background: transparent;
+  border: none;
   color: #fff;
-  font-size: 32px;
+  font-size: 36px;
   cursor: pointer;
-  transition: opacity 0.2s;
-  line-height: 1;
-}
-
-.close:hover {
-  opacity: 0.7;
 }
 
 .nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  padding: 12px 16px;
-  font-size: 24px;
+  background: rgba(255,255,255,0.06);
   color: #fff;
+  border: none;
+  padding: 12px 14px;
+  font-size: 30px;
   cursor: pointer;
-  transition: opacity 0.2s;
-  user-select: none;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
-.nav:hover {
-  opacity: 0.8;
-  background: rgba(0, 0, 0, 0.5);
+.prev { left: 18px; }
+.next { right: 18px; }
+
+.caption {
+  margin-top: 12px;
+  color: #ddd;
+  font-size: 14px;
+  text-align: center;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.prev {
-  left: 20px;
-}
-
-.next {
-  right: 20px;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .gallery {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 12px;
-    padding: 12px;
-  }
-
-  .gallery img {
-    height: 200px;
-    border-radius: 6px;
-  }
-
-  .nav {
-    padding: 8px 12px;
-    font-size: 20px;
-  }
-
-  .close {
-    font-size: 28px;
-    top: 15px;
-    right: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .gallery {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 8px;
-    padding: 8px;
-  }
-
-  .gallery img {
-    height: 150px;
-    border-radius: 4px;
-  }
-
-  header {
-    font-size: 20px;
-    padding: 20px 0;
-  }
-
-  .nav {
-    padding: 6px 10px;
-    font-size: 18px;
-  }
+/* Small screens adjustments */
+@media (max-width:600px) {
+  .nav { padding: 10px 12px; font-size: 24px; }
+  .close { font-size: 30px; top: 12px; right: 16px; }
+  .gallery { padding: 12px; column-gap: 10px; }
 }
